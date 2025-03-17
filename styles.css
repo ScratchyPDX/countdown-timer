@@ -1,0 +1,18 @@
+.container {
+  max-width: 300px;
+  margin: auto;
+}
+
+.time-left {
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+#countdown-date {
+  font-weight: bold;
+}
+
+.hours-minutes-seconds {
+  display: flex;
+  justify-content: space-between;
+}
