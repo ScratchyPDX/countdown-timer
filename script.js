@@ -1,64 +1,51 @@
-// Set the target date
-const TARGET_DATE = new Date("2025-12-17T23:59:59");
+function calculateTimeDifference(startDate, endDate) {
+    // const startDate = new Date();
+    // const endDate = new Date(TARGET_DATE);
+    // Calculate the total difference in milliseconds
+    const totalMilliseconds = endDate - startDate;
+    const totalSeconds = Math.floor(totalMilliseconds / 1000);
 
-function countdownTimer() {
-    // Parse dates
-    const start = new Date();
-    const end = new Date(TARGET_DATE);
+    // Calculate months, weeks, days, hours, minutes, and seconds
+    let months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+    if (endDate.getDate() < startDate.getDate()) {
+        months -= 1;
+    }
 
-    // Get the total difference in milliseconds
-    const totalMilliseconds = end - start;
+    const remainingDays = Math.floor((totalMilliseconds - months * 30 * 24 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000));
+    const weeks = Math.floor(remainingDays / 7);
+    const days = remainingDays % 7;
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
 
-    // Calculate months (approximate as 30.44 days per month)
-    const oneMonth = 30.44 * 24 * 60 * 60 * 1000;
-    const months = Math.floor(totalMilliseconds / oneMonth);
+    // Calculate the time difference (hours, minutes, seconds) separately
+    const remainingHours = Math.floor((totalMilliseconds % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+    const remainingMinutes = Math.floor((totalMilliseconds % (60 * 60 * 1000)) / (60 * 1000));
+    const remainingSeconds = Math.floor((totalMilliseconds % (60 * 1000)) / 1000);
 
-    // Remaining time after extracting months
-    const remainderAfterMonths = totalMilliseconds % oneMonth;
-
-    // Calculate weeks
-    const oneWeek = 7 * 24 * 60 * 60 * 1000;
-    const weeks = Math.floor(remainderAfterMonths / oneWeek);
-
-    // Remaining time after extracting weeks
-    const remainderAfterWeeks = remainderAfterMonths % oneWeek;
-
-    // Calculate days
-    const oneDay = 24 * 60 * 60 * 1000;
-    const days = Math.floor(remainderAfterWeeks / oneDay);
-
-    // Remaining time after extracting days
-    const remainderAfterDays = remainderAfterWeeks % oneDay;
-
-    // Calculate hours
-    const oneHour = 60 * 60 * 1000;
-    const hours = Math.floor(remainderAfterDays / oneHour) - 12;
-
-    // Remaining time after extracting hours
-    const remainderAfterHours = remainderAfterDays % oneHour;
-
-    // Calculate minutes
-    const oneMinute = 60 * 1000;
-    const minutes = Math.floor(remainderAfterHours / oneMinute);
-
-    // Remaining time after extracting minutes
-    const seconds = Math.floor((remainderAfterHours % oneMinute) / 1000);
-
-    // Return results
     return {
-        months,
-        weeks,
-        days,
-        hours,
-        minutes,
-        seconds
+        months: months,
+        weeks: weeks,
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        remainingHours: remainingHours,
+        remainingMinutes: remainingMinutes,
+        remainingSeconds: remainingSeconds
     };
 }
 
 // Update time left on page
 function updateTimeLeft() {
+    // Hardcode the start datetime to now
+    const now = new Date();
+    const startTime = now;
 
-    const timeLeft = countdownTimer();
+    // Hardcode the end datetime to 12/17/2025 at midnight
+    const endTime = new Date(2025, 11, 17, 22, 59, 59); // JavaScript months are 0-based
+
+    const timeLeft = calculateTimeDifference(startTime, endTime);
 
     document.getElementById('months').textContent = `Months: ${timeLeft.months}`;
     document.getElementById('months').style.display = 'block';
