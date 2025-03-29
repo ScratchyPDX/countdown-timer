@@ -1,10 +1,10 @@
 // Set the target date
-const targetDate = new Date('December, 17, 2025');
+const TARGET_DATE = new Date("2025-12-17T23:59:59");
 
 function countdownTimer() {
     // Parse dates
-    const start = new Date;
-    const end = targetDate;
+    const start = new Date();
+    const end = new Date(TARGET_DATE);
 
     // Get the total difference in milliseconds
     const totalMilliseconds = end - start;
@@ -32,7 +32,7 @@ function countdownTimer() {
 
     // Calculate hours
     const oneHour = 60 * 60 * 1000;
-    const hours = Math.floor(remainderAfterDays / oneHour);
+    const hours = Math.floor(remainderAfterDays / oneHour) - 12;
 
     // Remaining time after extracting hours
     const remainderAfterHours = remainderAfterDays % oneHour;
@@ -57,6 +57,7 @@ function countdownTimer() {
 
 // Update time left on page
 function updateTimeLeft() {
+
     const timeLeft = countdownTimer();
 
     document.getElementById('months').textContent = `Months: ${timeLeft.months}`;
